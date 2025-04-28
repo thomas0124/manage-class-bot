@@ -59,7 +59,7 @@ def callback():
 def follow_message(line_follow_event):
     profile = line_bot_api.get_profile(line_follow_event.source.user_id)
     logger.info(profile)
-    line_bot_api.reply_message(line_follow_event.reply_token, TextSendMessage(text=f'{profile.display_name}さん、フォローありがとう！/check [自分の名前] で自分の今の課題の期限が分かるよ！ \n'))
+    line_bot_api.reply_message(line_follow_event.reply_token, TextSendMessage(text=f'{profile.display_name}さん、フォローありがとう！ \n /check [自分の名前] : 自分の課題の課題の確認 \n /add_event [日付(ex. 6/20)] [講義名] [対象者] [詳細]: 自分の課題を追加 \n /delete_event [日付(ex. 6/20)] [講義名]: 自分の課題を削除 \n '))
 
 
 @handler.add(MessageEvent, message=TextMessage)
