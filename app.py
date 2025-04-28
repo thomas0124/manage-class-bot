@@ -61,7 +61,6 @@ def follow_message(line_follow_event):
     logger.info(profile)
     line_bot_api.reply_message(line_follow_event.reply_token, TextSendMessage(text=f'{profile.display_name}さん、フォローありがとう！ \n /check [自分の名前] : 自分の課題の課題の確認 \n /add_event [日付(ex. 6/20)] [講義名] [対象者] [詳細]: 自分の課題を追加 \n /delete_event [日付(ex. 6/20)] [講義名]: 自分の課題を削除 \n '))
 
-
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_message = event.message.text.strip()
@@ -72,18 +71,8 @@ def handle_message(event):
             reply_text = get_user_events(events, username)
         except ValueError:
             reply_text = "名前が入力されていません。\n例: /check 山田花子"
-    else:
-        reply_text = "コマンドが認識できませんでした。\n例: /check 山田花子"
-
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=reply_text)
-    )
-@handler.add(MessageEvent, message=TextMessage)
-def add_event(event):
-    user_message = event.message.text.strip()
-
-    if user_message.startswith('/add_event'):
+            
+    elif user_message.startswith('/add_event'):
         try:
             _, date, subject, person, detail = user_message.split(maxsplit=4)
             new_event = {"date": date, "subject": subject, "person": person, "detail": detail}
@@ -91,18 +80,8 @@ def add_event(event):
             reply_text = "新しいイベントが追加されました！"
         except ValueError:
             reply_text = "イベント情報が不完全です。\n例: /add_event 6/20 アルゴリズム特論 everyone 第2回課題"
-    else:
-        reply_text = "コマンドが認識できませんでした。\n例: /add_event 6/20 アルゴリズム特論 everyone 第2回課題"
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=reply_text)
-    )
-@handler.add(MessageEvent, message=TextMessage)
-def delete_event(event):
-    user_message = event.message.text.strip()
-
-    if user_message.startswith('/delete_event'):
+    elif user_message.startswith('/delete_event'):
         try:
             _, date, subject = user_message.split(maxsplit=2)
             event_to_delete = {"date": date, "subject": subject}
@@ -113,6 +92,9 @@ def delete_event(event):
                 reply_text = "削除できるイベントが見つかりませんでした。"
         except ValueError:
             reply_text = "削除するイベントの情報が不完全です。\n例: /delete_event 5/6 パターン認識特論"
+
+    else:
+        reply_text = "コマンドが認識できませんでした。\n例: /check 山田花子 または /add_event 6/20 アルゴリズム特論 everyone 第2回課題"
 
     line_bot_api.reply_message(
         event.reply_token,
