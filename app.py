@@ -79,6 +79,45 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage(text=reply_text)
     )
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    user_message = event.message.text.strip()
+
+    if user_message.startswith('/add_event'):
+        try:
+            _, date, subject, person, detail = user_message.split(maxsplit=4)
+            new_event = {"date": date, "subject": subject, "person": person, "detail": detail}
+            events.append(new_event)
+            reply_text = "新しいイベントが追加されました！"
+        except ValueError:
+            reply_text = "イベント情報が不完全です。\n例: /add_event 6/20 アルゴリズム特論 everyone 第2回課題"
+    else:
+        reply_text = "コマンドが認識できませんでした。\n例: /add_event 6/20 アルゴリズム特論 everyone 第2回課題"
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=reply_text)
+    )
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    user_message = event.message.text.strip()
+
+    if user_message.startswith('/delete_event'):
+        try:
+            _, date, subject = user_message.split(maxsplit=2)
+            event_to_delete = {"date": date, "subject": subject}
+            if event_to_delete in events:
+                events.remove(event_to_delete)
+                reply_text = f"イベントが削除されました: {date} {subject}"
+            else:
+                reply_text = "削除できるイベントが見つかりませんでした。"
+        except ValueError:
+            reply_text = "削除するイベントの情報が不完全です。\n例: /delete_event 5/6 パターン認識特論"
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=reply_text)
+    )
 
 if __name__ == "__main__":
     app.run(port=8000)
