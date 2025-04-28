@@ -80,7 +80,7 @@ def handle_message(event):
         TextSendMessage(text=reply_text)
     )
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+def add_event(event):
     user_message = event.message.text.strip()
 
     if user_message.startswith('/add_event'):
@@ -99,7 +99,7 @@ def handle_message(event):
         TextSendMessage(text=reply_text)
     )
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+def delete_event(event):
     user_message = event.message.text.strip()
 
     if user_message.startswith('/delete_event'):
