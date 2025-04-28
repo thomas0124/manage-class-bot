@@ -1,8 +1,9 @@
 import os
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FollowEvent
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
 
@@ -14,6 +15,9 @@ LINE_CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 events = [
     {"date": "5/6", "subject": "パターン認識特論", "person": "山田太郎", "detail": "確率論"},
     {"date": "5/6", "subject": "パターン認識特論", "person": "山田花子", "detail": "確率密度"},
@@ -21,6 +25,7 @@ events = [
     {"date": "5/20", "subject": "パターン認識特論", "person": "山田太郎", "detail": "次元の呪い"},
     {"date": "5/20", "subject": "パターン認識特論", "person": "山田花子", "detail": "決定理論"},
     {"date": "5/25", "subject": "研究室", "person": "everyone", "detail": "MICCAI課題"},
+    {"date": "6/2", "subject": "ヒューマンマシンシステム特論", "person": "everyone", "detail": "ユニバーサルデザイン7原則発表"},
     {"date": "6/10", "subject": "パターン認識特論", "person": "山田花子", "detail": "確率分布/二値変数"},
     {"date": "7/1", "subject": "パターン認識特論", "person": "山田太郎", "detail": "分類における最小二乗"},
     {"date": "7/8", "subject": "パターン認識特論", "person": "山田太郎", "detail": "最尤解"},
@@ -49,6 +54,13 @@ def callback():
         abort(400)
 
     return 'OK'
+
+@handler.add(FollowEvent)
+def follow_message(line_follow_event):
+    profile = line_bot_api.get_profile(line_follow_event.source.user_id)
+    logger.info(profile)
+    line_bot_api.reply_message(line_follow_event.reply_token, TextSendMessage(text=f'{profile.display_name}さん、フォローありがとう！/check [自分の名前] で自分の今の課題の期限が分かるよ！ \n'))
+
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
