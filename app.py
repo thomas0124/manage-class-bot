@@ -19,16 +19,16 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 events = [
-    {"date": "5/6", "subject": "パターン認識特論", "person": "山田太郎", "detail": "確率論"},
-    {"date": "5/6", "subject": "パターン認識特論", "person": "山田花子", "detail": "確率密度"},
+    {"date": "5/6", "subject": "パターン認識特論", "person": "浦田海翔", "detail": "確率論"},
+    {"date": "5/6", "subject": "パターン認識特論", "person": "江口純矢", "detail": "確率密度"},
     {"date": "5/14", "subject": "アルゴリズム特論", "person": "everyone", "detail": "第１回課題期限"},
-    {"date": "5/20", "subject": "パターン認識特論", "person": "山田太郎", "detail": "次元の呪い"},
-    {"date": "5/20", "subject": "パターン認識特論", "person": "山田花子", "detail": "決定理論"},
+    {"date": "5/20", "subject": "パターン認識特論", "person": "清水透真", "detail": "次元の呪い"},
+    {"date": "5/20", "subject": "パターン認識特論", "person": "鈴木榛名", "detail": "決定理論"},
     {"date": "5/25", "subject": "研究室", "person": "everyone", "detail": "MICCAI課題"},
     {"date": "6/2", "subject": "ヒューマンマシンシステム特論", "person": "everyone", "detail": "ユニバーサルデザイン7原則発表"},
-    {"date": "6/10", "subject": "パターン認識特論", "person": "山田花子", "detail": "確率分布/二値変数"},
-    {"date": "7/1", "subject": "パターン認識特論", "person": "山田太郎", "detail": "分類における最小二乗"},
-    {"date": "7/8", "subject": "パターン認識特論", "person": "山田太郎", "detail": "最尤解"},
+    {"date": "6/10", "subject": "パターン認識特論", "person": "長尾茉衣子", "detail": "確率分布/二値変数"},
+    {"date": "7/1", "subject": "パターン認識特論", "person": "松本侑真", "detail": "分類における最小二乗"},
+    {"date": "7/8", "subject": "パターン認識特論", "person": "横地累", "detail": "最尤解"},
 ]
 
 def get_user_events(events, username):
