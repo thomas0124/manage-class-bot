@@ -84,8 +84,13 @@ def handle_message(event):
     elif user_message.startswith('/delete_event'):
         try:
             _, date, subject = user_message.split(maxsplit=2)
-            event_to_delete = {"date": date, "subject": subject}
-            if event_to_delete in events:
+            # 削除するイベントを見つけて削除
+            event_to_delete = None
+            for event in events:
+                if event['date'] == date and event['subject'] == subject:
+                    event_to_delete = event
+                    break
+            if event_to_delete:
                 events.remove(event_to_delete)
                 reply_text = f"イベントが削除されました: {date} {subject}"
             else:
