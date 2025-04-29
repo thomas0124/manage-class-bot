@@ -31,7 +31,6 @@ events = [
     {"date": "6/16", "subject": "視覚色彩情報処理特論", "person": "江口純矢", "detail": "発表"},
     {"date": "7/1", "subject": "パターン認識特論", "person": "松本侑真", "detail": "分類における最小二乗"},
     {"date": "7/8", "subject": "パターン認識特論", "person": "横地累", "detail": "最尤解"},
-    
 ]
 
 def get_user_events(events, username):
@@ -62,7 +61,7 @@ def callback():
 def follow_message(line_follow_event):
     profile = line_bot_api.get_profile(line_follow_event.source.user_id)
     logger.info(profile)
-    line_bot_api.reply_message(line_follow_event.reply_token, TextSendMessage(text=f'{profile.display_name}さん、フォローありがとう！ \n /check [自分の名前] : 自分の課題の課題の確認 \n /add_event [日付(ex. 6/20)] [講義名] [対象者] [詳細]: 自分の課題を追加 \n /delete_event [日付(ex. 6/20)] [講義名]: 自分の課題を削除 \n '))
+    line_bot_api.reply_message(line_follow_event.reply_token, TextSendMessage(text=f'{profile.display_name}さん、フォローありがとう！ \n\n /check [自分の名前] : 自分の課題の課題の確認 \n\n /add_event [日付(ex. 6/20)] [講義名] [対象者] [詳細]: 自分の課題を追加 \n\n /delete_event [日付(ex. 6/20)] [講義名]: 自分の課題を削除 \n '))
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -95,7 +94,7 @@ def handle_message(event):
                     break
             if event_to_delete:
                 events.remove(event_to_delete)
-                reply_text = f"イベントが削除されました: {date} {subject} {person}"
+                reply_text = "イベントが削除されました:" + str(date) + str(subject) + str(person) 
             else:
                 reply_text = "削除できるイベントが見つかりませんでした。"
         except ValueError:
