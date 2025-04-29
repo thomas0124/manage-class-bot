@@ -66,7 +66,7 @@ def callback():
 def follow_message(line_follow_event):
     profile = line_bot_api.get_profile(line_follow_event.source.user_id)
     logger.info(profile)
-    line_bot_api.reply_message(line_follow_event.reply_token, TextSendMessage(text=f'{profile.display_name}さん、フォローありがとう！ \n\n  /set [自分の名前]: ユーザー名設定    /check [自分の名前] : 自分の課題の確認 \n\n /add_event [日付(ex. 6/20)] [講義名] [対象者] [詳細]: 自分の課題を追加 \n\n /delete_event [日付(ex. 6/20)] [講義名]: 自分の課題を削除 \n '))
+    line_bot_api.reply_message(line_follow_event.reply_token, TextSendMessage(text=f'{profile.display_name}さん、フォローありがとう！ \n\n /set [自分の名前]: ユーザー名設定 \n\n /check [自分の名前] : 自分の課題の確認 \n\n /add_event [日付(ex. 6/20)] [講義名] [対象者] [詳細]: 自分の課題を追加 \n\n /delete_event [日付(ex. 6/20)] [講義名]: 自分の課題を削除 \n '))
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -81,14 +81,12 @@ def handle_message(event):
             logger.info(f"ユーザー登録: {username} -> {user_id}")
         except ValueError:
             reply_text = "名前が入力されていません。\n例: /set 山田花子"
-            
-    if user_message.startswith('/check'):
+    elif user_message.startswith('/check'):
         try:
             _, username = user_message.split(maxsplit=1)
             reply_text = get_user_events(events, username)
         except ValueError:
             reply_text = "名前が入力されていません。\n例: /check 山田花子"
-            
     elif user_message.startswith('/add_event'):
         try:
             _, date, subject, person, detail = user_message.split(maxsplit=4)
@@ -197,6 +195,7 @@ def reminder_thread():
             time.sleep(60)
 
 if __name__ == "__main__":
+    load_user_ids()
     reminder_thread = threading.Thread(target=reminder_thread, daemon=True)
     reminder_thread.start()
     app.run(port=8000)
