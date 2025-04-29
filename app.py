@@ -61,7 +61,7 @@ def callback():
 def follow_message(line_follow_event):
     profile = line_bot_api.get_profile(line_follow_event.source.user_id)
     logger.info(profile)
-    line_bot_api.reply_message(line_follow_event.reply_token, TextSendMessage(text=f'{profile.display_name}さん、フォローありがとう！ \n\n /check [自分の名前] : 自分の課題の課題の確認 \n\n /add_event [日付(ex. 6/20)] [講義名] [対象者] [詳細]: 自分の課題を追加 \n\n /delete_event [日付(ex. 6/20)] [講義名]: 自分の課題を削除 \n '))
+    line_bot_api.reply_message(line_follow_event.reply_token, TextSendMessage(text=f'{profile.display_name}さん、フォローありがとう！ \n\n /check [自分の名前] : 自分の課題の確認 \n\n /add_event [日付(ex. 6/20)] [講義名] [対象者] [詳細]: 自分の課題を追加 \n\n /delete_event [日付(ex. 6/20)] [講義名]: 自分の課題を削除 \n '))
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -94,11 +94,11 @@ def handle_message(event):
                     break
             if event_to_delete:
                 events.remove(event_to_delete)
-                reply_text = "イベントが削除されました:" + str(date) + str(subject) + str(person) 
+                reply_text = "イベントが削除されました:" + str(date) + str(subject) + str(person)
             else:
                 reply_text = "削除できるイベントが見つかりませんでした。"
         except ValueError:
-            reply_text = "削除するイベントの情報が不完全です。\n\n 例: /delete_event 5/6 パターン認識特論"
+            reply_text = "削除するイベントの情報が不完全です。\n\n 例: /delete_event 5/6 パターン認識特論 山田花子"
 
     else:
         reply_text = "コマンドが認識できませんでした。\n\n 例: /check 山田花子 または /add_event 6/20 アルゴリズム特論 everyone 第2回課題"
