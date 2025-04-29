@@ -27,8 +27,8 @@ events = [
     {"date": "5/25", "subject": "研究室", "person": "everyone", "detail": "MICCAI課題"},
     {"date": "6/2", "subject": "ヒューマンマシンシステム特論", "person": "everyone", "detail": "ユニバーサルデザイン7原則発表"},
     {"date": "6/10", "subject": "パターン認識特論", "person": "長尾茉衣子", "detail": "確率分布/二値変数"},
-    {"date": "6/16", "subject": "視覚色彩情報処理", "person": "厚地風太", "detail": "発表"},
-    {"date": "6/16", "subject": "視覚色彩情報処理", "person": "江口純矢", "detail": "発表"},
+    {"date": "6/16", "subject": "視覚色彩情報処理特論", "person": "厚地風太", "detail": "発表"},
+    {"date": "6/16", "subject": "視覚色彩情報処理特論", "person": "江口純矢", "detail": "発表"},
     {"date": "7/1", "subject": "パターン認識特論", "person": "松本侑真", "detail": "分類における最小二乗"},
     {"date": "7/8", "subject": "パターン認識特論", "person": "横地累", "detail": "最尤解"},
     
@@ -86,23 +86,23 @@ def handle_message(event):
 
     elif user_message.startswith('/delete_event'):
         try:
-            _, date, subject = user_message.split(maxsplit=2)
+            _, date, subject, person = user_message.split(maxsplit=3)
             # 削除するイベントを見つけて削除
             event_to_delete = None
             for event in events:
-                if event['date'] == date and event['subject'] == subject:
+                if event['date'] == date and event['subject'] == subject and event['person'] == person:
                     event_to_delete = event
                     break
             if event_to_delete:
                 events.remove(event_to_delete)
-                reply_text = f"イベントが削除されました: {date} {subject}"
+                reply_text = f"イベントが削除されました: {date} {subject} {person}"
             else:
                 reply_text = "削除できるイベントが見つかりませんでした。"
         except ValueError:
-            reply_text = "削除するイベントの情報が不完全です。\n例: /delete_event 5/6 パターン認識特論"
+            reply_text = "削除するイベントの情報が不完全です。\n\n 例: /delete_event 5/6 パターン認識特論"
 
     else:
-        reply_text = "コマンドが認識できませんでした。\n例: /check 山田花子 または /add_event 6/20 アルゴリズム特論 everyone 第2回課題"
+        reply_text = "コマンドが認識できませんでした。\n\n 例: /check 山田花子 または /add_event 6/20 アルゴリズム特論 everyone 第2回課題"
 
     line_bot_api.reply_message(
         event.reply_token,
