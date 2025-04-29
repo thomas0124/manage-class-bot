@@ -27,8 +27,11 @@ events = [
     {"date": "5/25", "subject": "研究室", "person": "everyone", "detail": "MICCAI課題"},
     {"date": "6/2", "subject": "ヒューマンマシンシステム特論", "person": "everyone", "detail": "ユニバーサルデザイン7原則発表"},
     {"date": "6/10", "subject": "パターン認識特論", "person": "長尾茉衣子", "detail": "確率分布/二値変数"},
+    {"date": "6/16", "subject": "視覚色彩情報処理", "person": "厚地風太", "detail": "発表"},
+    {"date": "6/16", "subject": "視覚色彩情報処理", "person": "江口純矢", "detail": "発表"},
     {"date": "7/1", "subject": "パターン認識特論", "person": "松本侑真", "detail": "分類における最小二乗"},
     {"date": "7/8", "subject": "パターン認識特論", "person": "横地累", "detail": "最尤解"},
+    
 ]
 
 def get_user_events(events, username):
@@ -38,7 +41,7 @@ def get_user_events(events, username):
             text = f"📅 {event['date']} {event['subject']}: {event['detail']}"
             result.append(text)
     if result:
-        return "\n".join(result)
+        return "\n\n".join(result)
     else:
         return "該当するイベントはありませんでした。"
 
